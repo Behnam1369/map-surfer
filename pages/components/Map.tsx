@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import style from './Map.module.css'
 import coordinate from '../models/ICoordinate';
 import Pointer from './Pointer';
+import Zoom from './Zoom';
 
 export default function Map() {
   const [coordinate, setCoordinate] = useState<coordinate>({ x: 10528, y: 6450 });
@@ -59,6 +60,16 @@ export default function Map() {
     setPointerPosition({ x: e.clientX, y: e.clientY });
   }
 
+  const handleZoom = (n: number) => {
+    if (zoom + n <= 1 || zoom + n >= 20) return;
+    setzoom(zoom + n);
+    if (n > 0) {
+      setCoordinate({ x: coordinate.x * 2, y: coordinate.y * 2 });
+    } else {
+      setCoordinate({ x: Math.floor(coordinate.x / 2), y: Math.floor(coordinate.y / 2) });
+    }
+  }
+
   return (
     <div className={style.container}>
       <div
@@ -82,6 +93,7 @@ export default function Map() {
       </div>
       {showPointer && <Pointer position={pointerPosition} location={coordinate} onChange={(val: string) => setLocationTitle(val)} />}
       {locationTitle && <p className={style.location}>Location: {locationTitle} </p>}
+      <Zoom handleZoom={(val: number) => handleZoom(val)} zoomValue={zoom} />
     </div>
   )
 }
