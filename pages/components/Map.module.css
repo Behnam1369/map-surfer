@@ -17,5 +17,8 @@
 .location {
   position: fixed;
   top: 550px;
-  font-family: Arial, Helvetica, sans-serif;
+  left: 0;
+  font-family: Yekan;
+  text-align: center;
+  width: 100%;
 }
