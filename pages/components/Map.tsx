@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import style from './Map.module.css'
-import coordinate from '../models/coordinate';
+import coordinate from '../models/ICoordinate';
+import Pointer from './Pointer';
 
 export default function Map() {
   const [coordinate, setCoordinate] = useState<coordinate>({ x: 10528, y: 6450 });
   const [zoom, setzoom] = useState<number>(14);
   const [dragging, setDragging] = useState<boolean>(false);
   const [mapPosition, setMapPosition] = useState<coordinate>({ x: -128, y: -128 });
+  const [showPointer, setShowPointer] = useState<boolean>(false);
+  const [pointerPosition, setPointerPosition] = useState<coordinate>({ x: -100, y: -100 });
+  const [locationTitle, setLocationTitle] = useState<string>('');
+
+
 
   useEffect(() => {
     if (mapPosition.x > 0) {
@@ -47,6 +53,12 @@ export default function Map() {
     e.preventDefault();
   }
 
+  const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setShowPointer(true);
+    console.log(e.clientX, e.clientY);
+    setPointerPosition({ x: e.clientX, y: e.clientY });
+  }
+
   return (
     <div className={style.container}>
       <div
@@ -55,6 +67,7 @@ export default function Map() {
         onMouseMove={(e) => handleMouseMove(e)}
         onMouseUp={(e) => handleMouseUp(e)}
         draggable={true}
+        onDoubleClick={(e) => handleDoubleClick(e)}
         style={{ left: mapPosition.x, top: mapPosition.y }}
       >
         <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x - 1}/${coordinate.y - 1}.png`} />
@@ -67,6 +80,8 @@ export default function Map() {
         <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x}/${coordinate.y + 1}.png`} />
         <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x + 1}/${coordinate.y + 1}.png`} />
       </div>
+      {showPointer && <Pointer position={pointerPosition} location={coordinate} onChange={(val: string) => setLocationTitle(val)} />}
+      {locationTitle && <p className={style.location}>Location: {locationTitle} </p>}
     </div>
   )
 }

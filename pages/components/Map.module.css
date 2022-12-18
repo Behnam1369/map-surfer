@@ -13,3 +13,9 @@
   /* top: -128px;
   left: -128px; */
 }
+
+.location {
+  position: fixed;
+  top: 550px;
+  font-family: Arial, Helvetica, sans-serif;
+}
