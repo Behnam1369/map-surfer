@@ -3,6 +3,10 @@ import style from './Map.module.css'
 import coordinate from '../models/ICoordinate';
 import Pointer from './Pointer';
 import Zoom from './Zoom';
+import Search from './Search';
+
+const tileServer = 'https://raster.snappmaps.ir/styles/snapp-style'
+// const tileServer = 'https://maps.wikimedia.org/osm-intl'
 
 export default function Map() {
   const [coordinate, setCoordinate] = useState<coordinate>({ x: 10528, y: 6450 });
@@ -30,7 +34,13 @@ export default function Map() {
       setMapPosition({ ...mapPosition, y: mapPosition.y + 256 });
       setCoordinate({ ...coordinate, y: coordinate.y + 1 });
     }
-  }, [mapPosition])
+  }, [mapPosition]);
+
+  useEffect(() => {
+    const { worker } = require('../mocks/browser');
+    worker.start();
+    return () => { worker.stop(); }
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // only left mouse button
@@ -56,7 +66,6 @@ export default function Map() {
 
   const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setShowPointer(true);
-    console.log(e.clientX, e.clientY);
     setPointerPosition({ x: e.clientX, y: e.clientY });
   }
 
@@ -70,6 +79,14 @@ export default function Map() {
     }
   }
 
+  const handleSelect = (street: { zoom: number, x: number, y: number }) => {
+    setzoom(street.zoom);
+    setCoordinate({ x: street.x, y: street.y });
+    setShowPointer(true);
+
+    setPointerPosition({ x: window.innerWidth / 2, y: 256 });
+  }
+
   return (
     <div className={style.container}>
       <div
@@ -81,19 +98,20 @@ export default function Map() {
         onDoubleClick={(e) => handleDoubleClick(e)}
         style={{ left: mapPosition.x, top: mapPosition.y }}
       >
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x - 1}/${coordinate.y - 1}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x}/${coordinate.y - 1}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x + 1}/${coordinate.y - 1}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x - 1}/${coordinate.y}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x}/${coordinate.y}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x + 1}/${coordinate.y}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x - 1}/${coordinate.y + 1}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x}/${coordinate.y + 1}.png`} />
-        <img src={`https://maps.wikimedia.org/osm-intl/${zoom}/${coordinate.x + 1}/${coordinate.y + 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x - 1}/${coordinate.y - 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x}/${coordinate.y - 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x + 1}/${coordinate.y - 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x - 1}/${coordinate.y}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x}/${coordinate.y}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x + 1}/${coordinate.y}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x - 1}/${coordinate.y + 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x}/${coordinate.y + 1}.png`} />
+        <img src={`${tileServer}/${zoom}/${coordinate.x + 1}/${coordinate.y + 1}.png`} />
       </div>
       {showPointer && <Pointer position={pointerPosition} location={coordinate} onChange={(val: string) => setLocationTitle(val)} />}
-      {locationTitle && <p className={style.location}>Location: {locationTitle} </p>}
+      {locationTitle && <p className={style.location} dir="rtl">موقعیت: {locationTitle} </p>}
       <Zoom handleZoom={(val: number) => handleZoom(val)} zoomValue={zoom} />
+      <Search onSelect={(street: { zoom: number, x: number, y: number }) => handleSelect(street)} />
     </div>
   )
 }

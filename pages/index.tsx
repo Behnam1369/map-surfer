@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>Map surfer</h1>
+        <h1>Snapp Shop</h1>
         <Map />
       </main>
     </>

@@ -1,19 +1,27 @@
 import { rest } from 'msw';
+import { areas } from './data';
+const tehranStreets = areas.find((area) => area.city == "تهران")?.streets;
 
 export const handlers = [
   rest.get('/search/get-address', (req, res, ctx) => {
     let city = areas[Math.floor(Math.random()*areas.length)].city;
     let streets = areas.find(a => a.city === city).streets;
-    let street = streets[Math.floor(Math.random()*streets.length)];
+    let street = streets[Math.floor(Math.random()*streets.length)].name;
     return res(
       ctx.status(200),
       ctx.json([city, street]),
     )
   }),
+  rest.get('/search/search-address', (req, res, ctx) => {
+    let text = req.url.searchParams.get('address');
+    console.log();
+    let result = [];
+    if (tehranStreets) {
+      result = tehranStreets.filter((street) => street.name.includes(text));
+    }
+    return res(
+      ctx.status(200),
+      ctx.json(result),
+    )
+  }),
 ];
-
-const areas = [
-  {city: 'Tehran', streets: ['Azadi', 'Tajrish', 'Shahid Beheshti', 'Enghelab', 'Kargar', 'Navvab', 'Chamran', 'Sattarkhan', 'Kashani', 'Abouzar']},
-  {city: 'Esfahan', streets: ['St1', 'St2', 'St3', 'St4', 'St5', 'St6', 'St7', 'St8', 'St9', 'St10']},
-  {city: 'Shiraz', streets: ['Av1', 'Av2', 'Av3', 'Av4', 'Av5', 'Av6', 'Av7', 'Av8', 'Av9', 'Av10']},
-]
