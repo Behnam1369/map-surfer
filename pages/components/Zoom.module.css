@@ -1,0 +1,23 @@
+.zoom {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  color: black;
+  padding: 3px;
+}
+
+.btn:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}

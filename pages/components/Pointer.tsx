@@ -18,16 +18,12 @@ export default function Pointer(props: { position: coordinate, location: coordin
   }, []);
 
   useEffect(() => {
-    // console.log(lat, lng);
     onChange('Loading...');
     let timer = setTimeout(() => {
       fetch(`/search/get-address?lat=${lat}&lng=${lng}`).then((res) => res.json()).then((data) => onChange(`${data[1]} (${data[0]})`));
     }, 2000);
     return () => { clearTimeout(timer); };
-  }, [props.location])
-
-
-
+  }, [props.location, props.position])
 
   return (
     <div className={style.pointer} style={{ left: x, top: y }}>
