@@ -13,11 +13,8 @@ A Simple map surfur project.
 - Typescript
 - MSW
 
-## Live Demo
-will be added
-<!-- You can find the live demo on [Netlify](https://my-virtual-notebook.netlify.app/).  -->
-
-You can also watch the below presentational video. 
+## Presentation
+Please check out the below presentational video. 
 
 [![IMAGE THUMBNAIL](public/video.jpg)](https://youtu.be/bXjfHn8pkjU)
 
