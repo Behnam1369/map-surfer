@@ -7,7 +7,8 @@
   padding: 5px;
   border-radius: 5px;
   display: flex;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .icon {
@@ -23,7 +24,8 @@
   background-color: transparent;
   color: black;
   margin-right: 10px;
-  font-family: Yekan;
+  font-family: Helvetica;
+  font-size: 16px;
 }
 
 .result {
@@ -35,7 +37,8 @@
   padding: 0;
   border-radius: 5px;
   display: flex;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   display: flex;
   flex-direction: column;
   max-height: 150px;
@@ -44,9 +47,10 @@
 
 .item {
   color: black;
-  font-family: Yekan;
+  font-family: Helvetica;
   border-bottom: solid 1px silver;
   padding: 0 5px;
+  font-size: 14px;
 }
 
 .item:hover {
@@ -56,7 +60,7 @@
 
 .no_result {
   color: gray;
-  font-family: Yekan;
+  font-family: Helvetica;
   border-bottom: solid 1px silver;
   padding: 0 5px;
 }
